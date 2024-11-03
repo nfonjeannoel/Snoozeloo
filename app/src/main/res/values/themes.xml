@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Snoozeloo" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Snoozeloo.Splash" parent="Theme.SplashScreen">
+        <!-- The background color of the splash screen -->
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+
+        <!-- The animated icon (your alarm.xml drawable) -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
+
+        <!-- The theme to use after the splash screen transitions away -->
+        <item name="postSplashScreenTheme">@style/Theme.Snoozeloo</item>
+    </style>
+</resources>

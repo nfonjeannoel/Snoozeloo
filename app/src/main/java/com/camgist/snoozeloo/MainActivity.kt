@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
 //                    floatingActionButtonPosition = FabPosition.Center
                 ) { innerPadding ->
 //                    AlarmListScreen(modifier = Modifier.padding(innerPadding))
-                    AlarmDetailsScreen(modifier = Modifier.padding(innerPadding))
+                    AlarmDetailsScreen(modifier = Modifier.padding(innerPadding)) {}
 
                 }
 

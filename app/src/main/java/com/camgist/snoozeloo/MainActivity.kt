@@ -33,22 +33,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             SnoozelooTheme {
                 Scaffold(
-//                    modifier = Modifier.fillMaxSize()
-//                        .padding(bottom = MyDimensions.smallPadding),
-//                    floatingActionButton = {
-//                        FloatingActionButton(
-//                            onClick = { /*TODO*/ },
-//                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-//                            shape = CircleShape,
-//
-//                        ) {
-//                            Icon(Icons.Filled.Add, "Add")
-//                        }
-//                    },
-//                    floatingActionButtonPosition = FabPosition.Center
+                    modifier = Modifier.fillMaxSize()
+                        .padding(bottom = MyDimensions.smallPadding),
+                    floatingActionButton = {
+                        FloatingActionButton(
+                            onClick = { /*TODO*/ },
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            shape = CircleShape,
+
+                        ) {
+                            Icon(Icons.Filled.Add, "Add")
+                        }
+                    },
+                    floatingActionButtonPosition = FabPosition.Center
                 ) { innerPadding ->
-//                    AlarmListScreen(modifier = Modifier.padding(innerPadding))
-                    AlarmDetailsScreen(modifier = Modifier.padding(innerPadding)) {}
+                    AlarmListScreen(modifier = Modifier.padding(innerPadding))
+//                    AlarmDetailsScreen(modifier = Modifier.padding(innerPadding)) {}
 
                 }
 

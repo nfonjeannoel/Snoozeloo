@@ -34,10 +34,19 @@ val Typography = Typography(
         letterSpacing = 0.sp
     ),
 
+    // PM or AM in alarm time
+    headlineMedium = TextStyle(
+        fontFamily = MontserratFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.15.sp
+    ),
+
     // Alarm titles
     titleMedium = TextStyle(
         fontFamily = MontserratFontFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.15.sp

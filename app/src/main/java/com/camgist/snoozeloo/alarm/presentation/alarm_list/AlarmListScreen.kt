@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.sp
-import com.camgist.snoozeloo.alarm.presentation.alarm_list.composables.AlarmItem
+import com.camgist.snoozeloo.alarm.presentation.composables.AlarmItem
 import com.camgist.snoozeloo.ui.theme.MyDimensions
 
 @PreviewLightDark

@@ -1,4 +1,4 @@
-package com.camgist.snoozeloo.alarm.presentation.alarm_list.composables
+package com.camgist.snoozeloo.alarm.presentation.composables
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background

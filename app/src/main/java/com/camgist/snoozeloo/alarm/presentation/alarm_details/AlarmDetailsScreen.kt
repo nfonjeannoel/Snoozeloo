@@ -28,22 +28,29 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.camgist.snoozeloo.alarm.presentation.composables.MyRoundedButton
 import com.camgist.snoozeloo.ui.theme.MontserratFontFamily
 import com.camgist.snoozeloo.ui.theme.MyDimensions
 
 
-@PreviewLightDark
+@Preview
 @Composable
 fun PreviewAlarmDetailsScreen() {
     AlarmDetailsScreen(Modifier) {}
@@ -59,12 +66,13 @@ fun AlarmDetailsScreen(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-
+    val showPopUp = true
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surfaceContainer) // Todo: Replace for bacground color after palette
             .padding(MyDimensions.largePadding)
+            .alpha(if (showPopUp) 0.4f else 1f)
     ) {
 
         // Custom fun for better readability.
@@ -74,7 +82,11 @@ fun AlarmDetailsScreen(
 
         }
 
-        Spacer(modifier = Modifier.fillMaxWidth().height(24.dp))
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp)
+        )
 
         NewAlarmDateBlock(
             modifier = Modifier
@@ -82,7 +94,11 @@ fun AlarmDetailsScreen(
 
         }
 
-        Spacer(modifier = Modifier.fillMaxWidth().height(24.dp))
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp)
+        )
 
         AlarmNameBlock(
             modifier = Modifier,
@@ -90,7 +106,15 @@ fun AlarmDetailsScreen(
 
 
         }
+
     }
+
+    AlarmNameInputPopUp(
+        modifier = modifier
+            .padding(MyDimensions.largePadding)
+            .fillMaxSize()
+    )
+
 }
 
 @Composable
@@ -119,27 +143,16 @@ fun TopUserOptionsRow(
         }
 
         // We use this "Spacer" to push the side elements to the sides with the weight modifier.
-        Spacer(modifier = Modifier.fillMaxWidth().weight(1f))
-
-        Box(
+        Spacer(
             modifier = Modifier
-                .fillMaxHeight()
-                .background(
-                    MaterialTheme.colorScheme.surfaceDim,
-                    shape = RoundedCornerShape(100)
-                )
-                .padding(horizontal = MyDimensions.regularPadding, vertical = 6.dp),
-            contentAlignment = Alignment.CenterEnd
-        ) {
-            Text(
-                text = "Save",
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 16.sp
-                )
-            )
-        }
+                .fillMaxWidth()
+                .weight(1f)
+        )
+
+        MyRoundedButton(
+            buttonText = "Save",
+            onButtonClicked = {}
+        )
     }
 }
 
@@ -162,7 +175,10 @@ fun NewAlarmDateBlock(
         ) {
             Box(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surfaceContainer, shape = MaterialTheme.shapes.medium)
+                    .background(
+                        MaterialTheme.colorScheme.surfaceContainer,
+                        shape = MaterialTheme.shapes.medium
+                    )
                     .padding(vertical = MyDimensions.regularPadding)
                     .weight(1f),
                 contentAlignment = Alignment.Center
@@ -182,7 +198,8 @@ fun NewAlarmDateBlock(
                 modifier = Modifier
                     .fillMaxHeight()
                     .width(MyDimensions.largePadding),
-                verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = ":",
@@ -198,7 +215,10 @@ fun NewAlarmDateBlock(
 
             Box(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surfaceContainer, shape = MaterialTheme.shapes.medium)
+                    .background(
+                        MaterialTheme.colorScheme.surfaceContainer,
+                        shape = MaterialTheme.shapes.medium
+                    )
                     .padding(vertical = MyDimensions.regularPadding)
                     .weight(1f),
                 contentAlignment = Alignment.Center
@@ -249,5 +269,65 @@ fun AlarmNameBlock(
             )
         )
 
+    }
+}
+
+@Composable
+fun AlarmNameInputPopUp(
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+
+    ) {
+        Box(
+            modifier = Modifier
+                .height(IntrinsicSize.Max)
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.onPrimary, shape = RoundedCornerShape(16.dp))
+                .padding(MyDimensions.regularPadding),
+        ) {
+            Column {
+                Text(
+                    text = "Alarm Name", style = MaterialTheme.typography.bodyLarge.copy(
+                        fontFamily = MontserratFontFamily,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {},
+                    placeholder = {
+                        Text(
+                            "Enter Alarm Name", style = MaterialTheme.typography.bodyMedium.copy(
+                                fontFamily = MontserratFontFamily,
+                                fontWeight = FontWeight.Normal,
+                            )
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 0.dp, horizontal = 0.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = MaterialTheme.colorScheme.surfaceContainer,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.surfaceContainer,
+
+                        )
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                MyRoundedButton(
+                    buttonText = "Save",
+                    modifier = Modifier.align(Alignment.End),
+                ) {
+
+                }
+            }
+        }
     }
 }

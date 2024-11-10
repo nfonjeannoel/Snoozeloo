@@ -20,7 +20,9 @@ import com.camgist.snoozeloo.alarm.presentation.alarm_details.AlarmDetailsScreen
 import com.camgist.snoozeloo.alarm.presentation.alarm_list.AlarmListScreen
 import com.camgist.snoozeloo.ui.theme.MyDimensions
 import com.camgist.snoozeloo.ui.theme.SnoozelooTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()

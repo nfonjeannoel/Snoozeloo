@@ -29,17 +29,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.camgist.snoozeloo.alarm.domain.AlarmItem
+import com.camgist.snoozeloo.alarm.presentation.models.AlarmItemUi
+import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItemUi
 import com.camgist.snoozeloo.ui.theme.MyDimensions
 
 @Composable
 @Preview
 fun PreviewAlarmItem() {
-    AlarmItem()
+    AlarmItem(previewAlarmItem)
 }
 
 
 @Composable
 fun AlarmItem(
+    alarmItemUi: AlarmItemUi,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -54,13 +58,13 @@ fun AlarmItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Wake up",
+                text = alarmItemUi.alarmName?: "",
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
                 style = MaterialTheme.typography.titleMedium
             )
-            CustomLargeSwitch(checked = false, onCheckedChange = {}, scale = 0.9f)
+            CustomLargeSwitch(checked = alarmItemUi.isEnabled, onCheckedChange = {}, scale = 0.9f)
         }
         Row(verticalAlignment = Alignment.Bottom) {
             Text(
@@ -86,4 +90,10 @@ fun AlarmItem(
     }
 }
 
-
+internal val previewAlarmItem = AlarmItem(
+    id = 1,
+    hour = 10,
+    minute = 0,
+    isEnabled = true,
+    alarmName = "Wake up now"
+).toAlarmItemUi()

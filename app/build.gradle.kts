@@ -1,9 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id ("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
-    id ("kotlin-kapt")
-    id ("dagger.hilt.android.plugin")
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt.android.gradle.plugin)
+//    alias(libs.plugins.kotlin.kapt)
+    id("kotlin-kapt")
 }
 
 android {
@@ -71,14 +72,13 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlin.serialization)
-
 
     // Navigation
     implementation(libs.kotlin.stdlib)
     implementation (libs.androidx.navigation.compose)
 
     // Dependency Injection
+    implementation(libs.androidx.navigation.compose.hilt)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 }

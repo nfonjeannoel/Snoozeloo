@@ -3,6 +3,7 @@ package com.camgist.snoozeloo.alarm.presentation.composables
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +25,7 @@ fun MyRoundedButton(
     buttonText: String,
     modifier: Modifier = Modifier,
     buttonBgColour: Color = MaterialTheme.colorScheme.surfaceDim,
+    paddingValues: PaddingValues = PaddingValues(horizontal = MyDimensions.regularPadding, vertical = 6.dp),
     onButtonClicked: () -> Unit = {},
 ) {
     Box(
@@ -34,7 +36,7 @@ fun MyRoundedButton(
                 buttonBgColour,
                 shape = RoundedCornerShape(100)
             )
-            .padding(horizontal = MyDimensions.regularPadding, vertical = 6.dp),
+            .padding(paddingValues),
 
         contentAlignment = Alignment.CenterEnd,
     ) {

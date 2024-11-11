@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.camgist.snoozeloo.alarm.presentation.alarm_details.AlarmDetailsScreen
 import com.camgist.snoozeloo.alarm.presentation.alarm_list.AlarmListScreen
+import com.camgist.snoozeloo.alarm.presentation.alarm_trigger.AlarmTriggerScreen
 import com.camgist.snoozeloo.ui.theme.MyDimensions
 import com.camgist.snoozeloo.ui.theme.SnoozelooTheme
 
@@ -48,7 +49,8 @@ class MainActivity : ComponentActivity() {
 //                    floatingActionButtonPosition = FabPosition.Center
                 ) { innerPadding ->
 //                    AlarmListScreen(modifier = Modifier.padding(innerPadding))
-                    AlarmDetailsScreen(modifier = Modifier.padding(innerPadding)) {}
+//                    AlarmDetailsScreen(modifier = Modifier.padding(innerPadding)) {}
+                    AlarmTriggerScreen(modifier = Modifier.padding(innerPadding))
 
                 }
 

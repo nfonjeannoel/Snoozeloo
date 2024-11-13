@@ -1,7 +1,7 @@
 package com.camgist.snoozeloo.alarm.domain
 
 data class AlarmItem(
-    val id: Long,
+    val id: Int,
     val hour: Int,
     val minute: Int,
     val isEnabled: Boolean,

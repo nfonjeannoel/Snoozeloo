@@ -59,7 +59,13 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+//    splash screen
     implementation(libs.androidx.core.splashscreen)
+//    room database
+    implementation(libs.room)
+    implementation(libs.roomCompiler)
+    implementation(libs.roomKtx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

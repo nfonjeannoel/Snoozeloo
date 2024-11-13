@@ -3,7 +3,7 @@ package com.camgist.snoozeloo.alarm.presentation.models
 import com.camgist.snoozeloo.alarm.domain.AlarmItem
 
 data class AlarmItemUi(
-    val id: Long,
+    val id: Int,
     val hour: Int,
     val minute: Int,
     val isEnabled: Boolean,

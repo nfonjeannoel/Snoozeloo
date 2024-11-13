@@ -92,5 +92,5 @@ fun AlarmListScreen(
     }
 }
 
-internal val previewAlarmListUi = (0..10).map { previewAlarmItem.copy(id = it.toLong()) }
+internal val previewAlarmListUi = (0..10).map { previewAlarmItem.copy(id = it) }
 internal val previewEmptyAlarmListUi = emptyList<AlarmItemUi>()

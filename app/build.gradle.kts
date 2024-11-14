@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.hilt.android.gradle.plugin)
+//    alias(libs.plugins.hilt.android.gradle.plugin)
 //    alias(libs.plugins.kotlin.kapt)
     id("kotlin-kapt")
 }
@@ -77,8 +77,8 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation (libs.androidx.navigation.compose)
 
-    // Dependency Injection
-    implementation(libs.androidx.navigation.compose.hilt)
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+//    // Dependency Injection
+//    implementation(libs.androidx.navigation.compose.hilt)
+//    implementation(libs.hilt.android)
+//    kapt(libs.hilt.compiler)
 }

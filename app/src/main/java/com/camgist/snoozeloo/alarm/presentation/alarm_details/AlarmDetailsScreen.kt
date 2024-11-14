@@ -66,7 +66,7 @@ fun AlarmDetailsScreen(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    val showPopUp = true
+    val showPopUp = false
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -109,11 +109,13 @@ fun AlarmDetailsScreen(
 
     }
 
-    AlarmNameInputPopUp(
-        modifier = modifier
-            .padding(MyDimensions.largePadding)
-            .fillMaxSize()
-    )
+    if(showPopUp){
+        AlarmNameInputPopUp(
+            modifier = modifier
+                .padding(MyDimensions.largePadding)
+                .fillMaxSize()
+        )
+    }
 
 }
 

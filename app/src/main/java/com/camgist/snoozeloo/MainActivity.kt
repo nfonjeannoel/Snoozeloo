@@ -18,6 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.camgist.snoozeloo.alarm.presentation.alarm_details.AlarmDetailsScreen
 import com.camgist.snoozeloo.alarm.presentation.alarm_list.AlarmListScreen
+import com.camgist.snoozeloo.alarm.presentation.alarm_list.AlarmListState
+import com.camgist.snoozeloo.alarm.presentation.alarm_list.previewAlarmListUi
+import com.camgist.snoozeloo.alarm.presentation.alarm_trigger.AlarmTriggerScreen
+import com.camgist.snoozeloo.alarm.presentation.composables.previewAlarmItem
 import com.camgist.snoozeloo.ui.theme.MyDimensions
 import com.camgist.snoozeloo.ui.theme.SnoozelooTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,22 +39,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             SnoozelooTheme {
                 Scaffold(
-//                    modifier = Modifier.fillMaxSize()
-//                        .padding(bottom = MyDimensions.smallPadding),
-//                    floatingActionButton = {
-//                        FloatingActionButton(
-//                            onClick = { /*TODO*/ },
-//                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-//                            shape = CircleShape,
-//
-//                        ) {
-//                            Icon(Icons.Filled.Add, "Add")
-//                        }
-//                    },
-//                    floatingActionButtonPosition = FabPosition.Center
+                    modifier = Modifier.fillMaxSize()
+                        .padding(bottom = MyDimensions.smallPadding),
+                    floatingActionButton = {
+                        FloatingActionButton(
+                            onClick = { /*TODO*/ },
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            shape = CircleShape,
+
+                        ) {
+                            Icon(Icons.Filled.Add, "Add")
+                        }
+                    },
+                    floatingActionButtonPosition = FabPosition.Center
                 ) { innerPadding ->
-//                    AlarmListScreen(modifier = Modifier.padding(innerPadding))
-                    AlarmDetailsScreen(modifier = Modifier.padding(innerPadding)) {}
+                    AlarmListScreen(
+                        state = AlarmListState(
+                            alarmUiItems = previewAlarmListUi
+                        ),
+                        modifier = Modifier.padding(innerPadding)
+                    )
+//                    AlarmDetailsScreen(modifier = Modifier.padding(innerPadding)) {}
+//                    AlarmTriggerScreen(modifier = Modifier.padding(innerPadding))
 
                 }
 

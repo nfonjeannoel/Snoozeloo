@@ -35,13 +35,22 @@ fun PreviewAlarmTriggerScreen() {
         AlarmTriggerScreen(
             modifier = Modifier.fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
-        )
+        ) {}
     }
 }
 
 @Composable
+fun RootAlarmTriggerScreen(vm: ViewModelAlarmTrigger) {
+    AlarmTriggerScreen(
+        Modifier,
+        vm::navigateBack
+    )
+}
+
+@Composable
 fun AlarmTriggerScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onButtonClicked: () -> Unit
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -83,7 +92,7 @@ fun AlarmTriggerScreen(
                 buttonBgColour = MaterialTheme.colorScheme.primary,
                 paddingValues = PaddingValues(horizontal = 32.dp, vertical = 12.dp),
             ) {
-
+                onButtonClicked()
             }
         }
     }

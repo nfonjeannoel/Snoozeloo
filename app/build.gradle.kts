@@ -84,14 +84,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(libs.kotlinx.serialization.json)
+//    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.core)
 
     // Navigation
     implementation(libs.kotlin.stdlib)
     implementation (libs.androidx.navigation.compose)
 
 //    // Dependency Injection
-//    implementation(libs.androidx.navigation.compose.hilt)
-//    implementation(libs.hilt.android)
-//    kapt(libs.hilt.compiler)
+    implementation(libs.bundles.koin.compose)
 }

@@ -33,22 +33,25 @@ import com.camgist.snoozeloo.alarm.domain.AlarmItem
 import com.camgist.snoozeloo.alarm.presentation.models.AlarmItemUi
 import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItemUi
 import com.camgist.snoozeloo.ui.theme.MyDimensions
+import java.util.UUID
 
 @Composable
 @Preview
 fun PreviewAlarmItem() {
-    AlarmItem(previewAlarmItem)
+    AlarmItem(Modifier, previewAlarmItem, {})
 }
 
 
 @Composable
 fun AlarmItem(
+    modifier: Modifier = Modifier,
     alarmItemUi: AlarmItemUi,
-    modifier: Modifier = Modifier
+    onItemClicked: (String) -> Unit
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .clickable { onItemClicked(UUID.randomUUID().toString()) } // Todo: Need to make sure it doesn't affect the switch button.
             .clip(MaterialTheme.shapes.medium)
             .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             .padding(MyDimensions.largePadding)

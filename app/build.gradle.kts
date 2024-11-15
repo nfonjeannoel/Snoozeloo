@@ -1,9 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id ("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
-    id ("kotlin-kapt")
-    id ("dagger.hilt.android.plugin")
+//    alias(libs.plugins.hilt)
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
+    id("kotlin-kapt")
+    alias(libs.plugins.hilt.android.gradle.plugin)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -76,9 +78,14 @@ dependencies {
 
     // Navigation
     implementation(libs.kotlin.stdlib)
-    implementation (libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
 
     // Dependency Injection
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    kapt(libs.hilt.android.compiler)
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }

@@ -1,7 +1,7 @@
 [versions]
-agp = "8.5.2"
-hiltAndroidGradlePlugin = "2.44"
-kotlin = "1.9.0"
+agp = "8.7.2"
+hiltAndroidGradlePlugin = "2.51.1"
+kotlin = "2.0.20"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -11,15 +11,12 @@ kotlinStdlib = "2.0.21"
 kotlinxSerializationJson = "1.7.3"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
-composeBom = "2024.10.01"
+composeBom = "2024.11.00"
 coreSplashscreen = "1.0.1"
-navigation = "2.8.3"
-hiltAndroid = "2.49"
-hiltNavigationCompose = "1.2.0"
+navigation = "2.8.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-hilt-android-gradle-plugin-v244 = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltAndroidGradlePlugin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -42,16 +39,27 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 #Dagger&Hilt
-androidx-navigation-compose-hilt = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
-hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltAndroid" }
-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
+#androidx-navigation-compose-hilt = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+#hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+#hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
+#hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltAndroid" }
+#hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
+
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidGradlePlugin" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidGradlePlugin" }
+
 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+
+#hilt
+hilt-android-gradle-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroidGradlePlugin" }
+
+
 
 

@@ -29,22 +29,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.camgist.snoozeloo.alarm.domain.AlarmItem
+import com.camgist.snoozeloo.alarm.presentation.models.AlarmItemUi
+import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItemUi
 import com.camgist.snoozeloo.ui.theme.MyDimensions
+import java.util.UUID
 
 @Composable
 @Preview
 fun PreviewAlarmItem() {
-    AlarmItem()
+    AlarmItem(Modifier, previewAlarmItem, {})
 }
 
 
 @Composable
 fun AlarmItem(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    alarmItemUi: AlarmItemUi,
+    onItemClicked: (String) -> Unit
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .clickable { onItemClicked(UUID.randomUUID().toString()) } // Todo: Need to make sure it doesn't affect the switch button.
             .clip(MaterialTheme.shapes.medium)
             .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             .padding(MyDimensions.largePadding)
@@ -54,13 +61,13 @@ fun AlarmItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Wake up",
+                text = alarmItemUi.alarmName?: "",
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
                 style = MaterialTheme.typography.titleMedium
             )
-            CustomLargeSwitch(checked = false, onCheckedChange = {}, scale = 0.9f)
+            CustomLargeSwitch(checked = alarmItemUi.isEnabled, onCheckedChange = {}, scale = 0.9f)
         }
         Row(verticalAlignment = Alignment.Bottom) {
             Text(
@@ -86,4 +93,10 @@ fun AlarmItem(
     }
 }
 
-
+internal val previewAlarmItem = AlarmItem(
+    id = 1,
+    hour = 10,
+    minute = 0,
+    isEnabled = true,
+    alarmName = "Wake up now"
+).toAlarmItemUi()

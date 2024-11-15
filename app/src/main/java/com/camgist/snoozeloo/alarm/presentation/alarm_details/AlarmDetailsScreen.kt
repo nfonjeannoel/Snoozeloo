@@ -45,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.camgist.snoozeloo.alarm.presentation.alarm_list.ViewModelAlarmList
 import com.camgist.snoozeloo.alarm.presentation.composables.MyRoundedButton
 import com.camgist.snoozeloo.ui.theme.MontserratFontFamily
 import com.camgist.snoozeloo.ui.theme.MyDimensions
@@ -57,7 +58,8 @@ fun PreviewAlarmDetailsScreen() {
 }
 
 @Composable
-fun RootAlarmDetailScreen() {
+fun RootAlarmDetailScreen(viewModel: ViewModelAlarmDetail, id: String) {
+
     AlarmDetailsScreen(modifier = Modifier) {}
 }
 
@@ -66,7 +68,7 @@ fun AlarmDetailsScreen(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    val showPopUp = true
+    val showPopUp = false
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -109,11 +111,13 @@ fun AlarmDetailsScreen(
 
     }
 
-    AlarmNameInputPopUp(
-        modifier = modifier
-            .padding(MyDimensions.largePadding)
-            .fillMaxSize()
-    )
+    if(showPopUp){
+        AlarmNameInputPopUp(
+            modifier = modifier
+                .padding(MyDimensions.largePadding)
+                .fillMaxSize()
+        )
+    }
 
 }
 

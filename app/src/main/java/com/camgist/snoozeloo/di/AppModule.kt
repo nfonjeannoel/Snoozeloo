@@ -1,16 +1,20 @@
 package com.camgist.snoozeloo.di
 
 import com.camgist.snoozeloo.navigation.DefaultNavigator
+import com.camgist.snoozeloo.navigation.Destination
 import com.camgist.snoozeloo.navigation.Navigator
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.camgist.snoozeloo.alarm.presentation.alarm_trigger.ViewModelAlarmTrigger
+import com.camgist.snoozeloo.alarm.presentation.alarm_list.ViewModelAlarmList
+import com.camgist.snoozeloo.alarm.presentation.alarm_details.ViewModelAlarmDetail
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.dsl.module
 
+val appModule = module {
+    single<Navigator> {
+        DefaultNavigator(startDestination = Destination.HomeGraph)
+    }
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class AppModule {
-    @Binds
-    abstract fun bindNavigator(appNavigator: DefaultNavigator): Navigator
+    viewModelOf(::ViewModelAlarmTrigger)
+    viewModelOf(::ViewModelAlarmList)
+    viewModelOf(::ViewModelAlarmDetail)
 }

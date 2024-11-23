@@ -96,27 +96,40 @@ class MainActivity : ComponentActivity() {
 
                                 RootAlarmListScreen(viewModel)
                             }
-                        }
-                        navigation<Destination.DetailGraph> (
-                            startDestination = Destination.DetailScreen
-                        ) {
+
                             composable<Destination.DetailScreen> {
                                 val viewModel = koinViewModel<ViewModelAlarmDetail>()
                                 val args = it.toRoute<Destination.DetailScreen>()
 
                                 RootAlarmDetailScreen(viewModel, args.id)
                             }
-                        }
 
-                        navigation<Destination.TriggerGraph> (
-                            startDestination = Destination.TriggerScreen
-                        ) {
                             composable<Destination.TriggerScreen> {
                                 val viewModel = koinViewModel<ViewModelAlarmTrigger>()
 
                                 RootAlarmTriggerScreen(viewModel)
                             }
                         }
+//                        navigation<Destination.DetailGraph> (
+//                            startDestination = Destination.DetailScreen
+//                        ) {
+//                            composable<Destination.DetailScreen> {
+//                                val viewModel = koinViewModel<ViewModelAlarmDetail>()
+//                                val args = it.toRoute<Destination.DetailScreen>()
+//
+//                                RootAlarmDetailScreen(viewModel, args.id)
+//                            }
+//                        }
+//
+//                        navigation<Destination.TriggerGraph> (
+//                            startDestination = Destination.TriggerScreen
+//                        ) {
+//                            composable<Destination.TriggerScreen> {
+//                                val viewModel = koinViewModel<ViewModelAlarmTrigger>()
+//
+//                                RootAlarmTriggerScreen(viewModel)
+//                            }
+//                        }
                     }
                 }
             }

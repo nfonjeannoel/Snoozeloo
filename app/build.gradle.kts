@@ -4,10 +4,11 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias (libs.plugins.kotlin.compose.compiler)
+    id("kotlin-kapt")
+
     alias(libs.plugins.kotlin.serialization)
 //    alias(libs.plugins.hilt.android.gradle.plugin)
 //    alias(libs.plugins.kotlin.kapt)
-    id("kotlin-kapt")
 }
 
 android {
@@ -38,8 +39,13 @@ android {
     }
     kotlin {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.JVM_1_8)
         }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -47,9 +53,9 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
+//    composeOptions {
+//        kotlinCompilerExtensionVersion = "2.0.0"
+//    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -84,7 +90,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-//    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
 
     // Navigation

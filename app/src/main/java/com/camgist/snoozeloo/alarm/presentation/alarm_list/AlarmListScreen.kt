@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -36,33 +37,17 @@ import com.camgist.snoozeloo.ui.theme.MyDimensions
 @Composable
 fun PreviewMainScreen() {
     AlarmListScreen(
-        Modifier,
-        state = AlarmListState(
-            alarmUiItems = previewAlarmListUi
-        ),
-        onDetailClicked = {},
-        {}
+        state = AlarmListState(previewAlarmListUi, null),
+        onAction = {},
     )
 }
 
-@Composable
-fun RootAlarmListScreen(vm: ViewModelAlarmList) {
-    AlarmListScreen(
-        Modifier,
-        state = AlarmListState(
-            alarmUiItems = previewAlarmListUi
-        ),
-        onDetailClicked =  vm::navigateToDetailScreen,
-        onTriggerClicked = vm::navigateToTriggerScreen
-    )
-}
 
 @Composable
 fun AlarmListScreen(
-    modifier: Modifier = Modifier,
     state: AlarmListState,
-    onDetailClicked: (String) -> Unit,
-    onTriggerClicked: () -> Unit // This is for testing navigation
+    onAction: (AlarmListAction) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -76,18 +61,6 @@ fun AlarmListScreen(
             style = MaterialTheme.typography.displayLarge
 
         )
-
-        Spacer(modifier = Modifier.height(MyDimensions.largePadding))
-
-        // Temp button to test navigation
-        MyRoundedButton(
-            buttonText = "Turn Off",
-            modifier = Modifier.height(IntrinsicSize.Max),
-            buttonBgColour = MaterialTheme.colorScheme.primary,
-            paddingValues = PaddingValues(horizontal = 32.dp, vertical = 12.dp),
-        ) {
-            onTriggerClicked()
-        }
 
         Spacer(modifier = Modifier.height(MyDimensions.largePadding))
 
@@ -117,8 +90,12 @@ fun AlarmListScreen(
             }
         } else {
             LazyColumn {
-                items(state.alarmUiItems) { alarmItemUi ->
-                    AlarmItem(Modifier, alarmItemUi, { onDetailClicked(it) })
+                items(state.alarmUiItems.reversed()) { alarmItemUi ->
+                    AlarmItem(
+                        alarmItemUi = alarmItemUi,
+                    ) {
+                        onAction(AlarmListAction.OnAlarmClicked(alarmItemUi = alarmItemUi))
+                    }
                     Spacer(modifier = Modifier.size(MyDimensions.regularPadding))
                 }
             }

@@ -24,16 +24,23 @@ import com.camgist.snoozeloo.ui.theme.SnoozelooTheme
 fun MyRoundedButton(
     buttonText: String,
     modifier: Modifier = Modifier,
-    buttonBgColour: Color = MaterialTheme.colorScheme.surfaceDim,
-    paddingValues: PaddingValues = PaddingValues(horizontal = MyDimensions.regularPadding, vertical = 6.dp),
+    buttonBgColour: Color = MaterialTheme.colorScheme.primary,
+    buttonBgColourDisabled: Color = MaterialTheme.colorScheme.surfaceDim,
+    isEnabled: Boolean = true,
+    paddingValues: PaddingValues = PaddingValues(
+        horizontal = MyDimensions.regularPadding,
+        vertical = 6.dp
+    ),
     onButtonClicked: () -> Unit = {},
 ) {
     Box(
         modifier = modifier
             .fillMaxHeight()
-            .clickable { onButtonClicked() }
+            .clickable {
+                if (isEnabled) onButtonClicked()
+            }
             .background(
-                buttonBgColour,
+                if (isEnabled) buttonBgColour else buttonBgColourDisabled,
                 shape = RoundedCornerShape(100)
             )
             .padding(paddingValues),

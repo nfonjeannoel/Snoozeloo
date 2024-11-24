@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.camgist.snoozeloo.alarm.domain.AlarmItem
+import com.camgist.snoozeloo.alarm.domain.utils.calculateNextAlarmText
 import com.camgist.snoozeloo.alarm.presentation.models.AlarmItemUi
 import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItemUi
 import com.camgist.snoozeloo.ui.theme.MyDimensions
@@ -38,20 +39,26 @@ import java.util.UUID
 @Composable
 @Preview
 fun PreviewAlarmItem() {
-    AlarmItem(Modifier, previewAlarmItem, {})
+    AlarmItem(previewAlarmItem, onItemClicked = {})
 }
 
 
 @Composable
 fun AlarmItem(
-    modifier: Modifier = Modifier,
     alarmItemUi: AlarmItemUi,
+    modifier: Modifier = Modifier,
     onItemClicked: (String) -> Unit
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onItemClicked(UUID.randomUUID().toString()) } // Todo: Need to make sure it doesn't affect the switch button.
+            .clickable {
+                onItemClicked(
+                    UUID
+                        .randomUUID()
+                        .toString()
+                )
+            } // Todo: Need to make sure it doesn't affect the switch button.
             .clip(MaterialTheme.shapes.medium)
             .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             .padding(MyDimensions.largePadding)
@@ -61,7 +68,7 @@ fun AlarmItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = alarmItemUi.alarmName?: "",
+                text = alarmItemUi.alarmName ?: "",
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
@@ -71,13 +78,13 @@ fun AlarmItem(
         }
         Row(verticalAlignment = Alignment.Bottom) {
             Text(
-                text = "10:00",
+                text = alarmItemUi.getFormattedTime(),
                 modifier = Modifier,
 //                fontSize = 24.sp,
                 style = MaterialTheme.typography.headlineLarge
             )
             Text(
-                text = "AM",
+                text = alarmItemUi.getAmPm(),
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(
                     start = MyDimensions.smallPadding,
@@ -86,7 +93,7 @@ fun AlarmItem(
             )
         }
         Text(
-            text = "Alarm in 30 min",
+            text = calculateNextAlarmText(alarmItemUi.hour, alarmItemUi.minute),
             style = MaterialTheme.typography.labelLarge,
             modifier = Modifier.padding(top = MyDimensions.smallPadding)
         )

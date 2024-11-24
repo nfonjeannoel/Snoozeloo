@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId = "com.camgist.snoozeloo"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -25,6 +25,13 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.schemaLocation"] = "$projectDir/schemas"
+                arguments["room.incremental"] = "true"
+            }
         }
     }
 
@@ -82,6 +89,7 @@ dependencies {
     implementation(libs.room)
     implementation(libs.roomCompiler)
     implementation(libs.roomKtx)
+    kapt(libs.roomCompiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -99,4 +107,5 @@ dependencies {
 
 //    // Dependency Injection
     implementation(libs.bundles.koin.compose)
+
 }

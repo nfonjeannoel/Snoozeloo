@@ -1,5 +1,6 @@
 package com.camgist.snoozeloo.alarm.data
 
+import com.camgist.snoozeloo.alarm.data.database.AlarmItemEntity
 import com.camgist.snoozeloo.alarm.data.database.AlarmsDao
 import com.camgist.snoozeloo.alarm.data.database.toAlarmItem
 import com.camgist.snoozeloo.alarm.data.database.toAlarmItemEntity
@@ -15,8 +16,11 @@ class AlarmsRepository(private val alarmsDao: AlarmsDao) : BaseAlarmsRepository 
     }
 
     override suspend fun getAlarmStream(id: Int): Flow<AlarmItem?> {
-        return alarmsDao.getAlarmItem(id).map { it.toAlarmItem() }
+        return alarmsDao.getAlarmItem(id).map { it?.toAlarmItem() } // Safely handle null case.
+        // for some reason, pylint is not happy with the above line,
+        // so I'm going to add a comment to explain it
     }
+
 
     override suspend fun insertAlarm(alarmItem: AlarmItem) {
         alarmsDao.insertAlarmItem(alarmItem.toAlarmItemEntity())

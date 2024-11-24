@@ -22,6 +22,9 @@ interface AlarmsDao {
     @Query("SELECT * FROM alarm_items WHERE id = :id")
     fun getAlarmItem(id: Int): Flow<AlarmItemEntity>
 
+    @Query("SELECT * FROM alarm_items WHERE id = :id")
+    fun getAlarmById(id: Int): AlarmItemEntity
+
     @Query("SELECT * FROM alarm_items")
     fun getAllAlarmItems(): Flow<List<AlarmItemEntity>>
 }

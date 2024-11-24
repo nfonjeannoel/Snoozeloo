@@ -10,6 +10,8 @@ import com.camgist.snoozeloo.navigation.Navigator
 import com.camgist.snoozeloo.alarm.presentation.alarm_trigger.ViewModelAlarmTrigger
 import com.camgist.snoozeloo.alarm.presentation.alarm_list.ViewModelAlarmList
 import com.camgist.snoozeloo.alarm.presentation.alarm_details.ViewModelAlarmDetail
+import com.camgist.snoozeloo.alarmManager.AlarmScheduler
+import com.camgist.snoozeloo.alarmManager.AndroidAlarmScheduler
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -30,9 +32,9 @@ val appModule = module {
 
     singleOf(::AlarmsRepository).bind<BaseAlarmsRepository>()
 
+    single<AlarmScheduler> { AndroidAlarmScheduler(context = get()) }
+
     viewModelOf(::ViewModelAlarmTrigger)
     viewModelOf(::ViewModelAlarmList)
     viewModelOf(::ViewModelAlarmDetail)
-
-    // provide repository
 }

@@ -12,6 +12,8 @@ import com.camgist.snoozeloo.alarm.domain.utils.calculateNextAlarmText
 import com.camgist.snoozeloo.alarm.presentation.models.AlarmItemUi
 import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItem
 import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItemUi
+import com.camgist.snoozeloo.alarmManager.AlarmItemEvent
+import com.camgist.snoozeloo.alarmManager.AlarmScheduler
 import com.camgist.snoozeloo.navigation.Destination
 import com.camgist.snoozeloo.navigation.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +28,8 @@ import java.util.Calendar
 
 class ViewModelAlarmDetail(
     private val navigator: Navigator,
-    private val alarmsRepository: BaseAlarmsRepository
+    private val alarmsRepository: BaseAlarmsRepository,
+    private val alarmScheduler: AlarmScheduler
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AlarmDetailsState())
@@ -206,5 +209,14 @@ class ViewModelAlarmDetail(
         )
     }
 
+
+
+    fun scheduleAlarm(alarmItem: AlarmItemEvent) {
+        Log.d("AlarmSchedule", "DetailViewModel: Alarm scheduled")
+        alarmScheduler.schedule(alarmItem)
+    }
+    fun cancelAlarm(alarmItem: AlarmItemEvent) {
+        alarmScheduler.cancel(alarmItem)
+    }
 
 }

@@ -117,7 +117,10 @@ class ViewModelAlarmDetail(
                     isEnabled = true,
                     id = 0
                 )
-                Log.d("ViewModelAlarmDetail", "saveAlarmToDatabase: ${newAlarmItem.hour} ${newAlarmItem.minute}")
+                Log.d(
+                    "ViewModelAlarmDetail",
+                    "saveAlarmToDatabase: ${newAlarmItem.hour} ${newAlarmItem.minute}"
+                )
                 alarmsRepository.insertAlarm(newAlarmItem)
             } else {
                 val oldAlarmItem = state.value.alarmItemUi!!.toAlarmItem()
@@ -141,7 +144,9 @@ class ViewModelAlarmDetail(
                 "Please enter a valid time between 00:00 and 23:59"
             } else null,
         )
-        updateNextAlarmText()
+        if (isValid) {
+            updateNextAlarmText()
+        }
     }
 
     private fun validateTime(hours: String, minutes: String): Boolean {

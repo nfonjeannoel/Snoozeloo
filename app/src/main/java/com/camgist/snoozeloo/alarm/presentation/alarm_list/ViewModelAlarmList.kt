@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.camgist.snoozeloo.alarm.data.BaseAlarmsRepository
 import com.camgist.snoozeloo.alarm.presentation.models.AlarmItemUi
+import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItem
 import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItemUi
 import com.camgist.snoozeloo.navigation.Destination
 import com.camgist.snoozeloo.navigation.Navigator
@@ -64,6 +65,16 @@ class ViewModelAlarmList(
 
             is AlarmListAction.OnAddAlarmClicked -> {
                 navigateToDetailScreen(null)
+            }
+
+            is AlarmListAction.OnCheckChanged -> {
+                viewModelScope.launch {
+                    val alarmItemUi = action.alarmItemUi
+                    val isChecked = action.isChecked
+                    val alarmItem = alarmItemUi.toAlarmItem()
+                    val updatedAlarmItem = alarmItem.copy(isEnabled = isChecked)
+                    alarmsRepository.updateAlarm(updatedAlarmItem)
+                }
             }
         }
     }

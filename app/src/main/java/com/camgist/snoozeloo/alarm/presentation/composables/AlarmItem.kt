@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.camgist.snoozeloo.alarm.domain.AlarmItem
 import com.camgist.snoozeloo.alarm.domain.utils.calculateNextAlarmText
+import com.camgist.snoozeloo.alarm.presentation.alarm_details.AlarmDetailsAction
+import com.camgist.snoozeloo.alarm.presentation.alarm_list.AlarmListAction
 import com.camgist.snoozeloo.alarm.presentation.models.AlarmItemUi
 import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItemUi
 import com.camgist.snoozeloo.ui.theme.MyDimensions
@@ -39,25 +41,27 @@ import java.util.UUID
 @Composable
 @Preview
 fun PreviewAlarmItem() {
-    AlarmItem(previewAlarmItem, onItemClicked = {})
+    AlarmItem(previewAlarmItem, onAction = {})
 }
 
 
 @Composable
 fun AlarmItem(
     alarmItemUi: AlarmItemUi,
+    onAction: (AlarmListAction) -> Unit,
     modifier: Modifier = Modifier,
-    onItemClicked: (String) -> Unit
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-                onItemClicked(
-                    UUID
-                        .randomUUID()
-                        .toString()
-                )
+//                onItemClicked(
+//                    UUID
+//                        .randomUUID()
+//                        .toString()
+//                )
+                onAction(AlarmListAction.OnAlarmClicked(alarmItemUi))
+
             } // Todo: Need to make sure it doesn't affect the switch button.
             .clip(MaterialTheme.shapes.medium)
             .background(MaterialTheme.colorScheme.surfaceContainerHighest)
@@ -74,7 +78,9 @@ fun AlarmItem(
                     .weight(1f),
                 style = MaterialTheme.typography.titleMedium
             )
-            CustomLargeSwitch(checked = alarmItemUi.isEnabled, onCheckedChange = {}, scale = 0.9f)
+            CustomLargeSwitch(checked = alarmItemUi.isEnabled, onCheckedChange = { checked ->
+                onAction(AlarmListAction.OnCheckChanged(alarmItemUi, checked))
+            }, scale = 0.9f)
         }
         Row(verticalAlignment = Alignment.Bottom) {
             Text(

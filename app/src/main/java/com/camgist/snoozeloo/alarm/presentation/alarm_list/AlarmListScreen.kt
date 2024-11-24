@@ -90,12 +90,17 @@ fun AlarmListScreen(
             }
         } else {
             LazyColumn {
-                items(state.alarmUiItems.reversed()) { alarmItemUi ->
+                items(
+                    items = state.alarmUiItems.reversed(),
+                    key = { alarmItemUi -> alarmItemUi.id }
+                ) { alarmItemUi ->
                     AlarmItem(
                         alarmItemUi = alarmItemUi,
-                    ) {
-                        onAction(AlarmListAction.OnAlarmClicked(alarmItemUi = alarmItemUi))
-                    }
+                        onAction = onAction
+                    )
+//                    {
+//                        onAction(AlarmListAction.OnAlarmClicked(alarmItemUi = alarmItemUi))
+//                    }
                     Spacer(modifier = Modifier.size(MyDimensions.regularPadding))
                 }
             }

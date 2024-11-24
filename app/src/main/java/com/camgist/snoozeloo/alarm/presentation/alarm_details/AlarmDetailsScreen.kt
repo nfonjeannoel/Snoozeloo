@@ -47,8 +47,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.camgist.snoozeloo.alarm.presentation.alarm_list.ViewModelAlarmList
 import com.camgist.snoozeloo.alarm.presentation.composables.MyRoundedButton
+import com.camgist.snoozeloo.alarmManager.AlarmItemEvent
 import com.camgist.snoozeloo.ui.theme.MontserratFontFamily
 import com.camgist.snoozeloo.ui.theme.MyDimensions
+import java.time.LocalDateTime
 
 
 @Preview
@@ -60,13 +62,17 @@ fun PreviewAlarmDetailsScreen() {
 @Composable
 fun RootAlarmDetailScreen(viewModel: ViewModelAlarmDetail, id: String) {
 
-    AlarmDetailsScreen(modifier = Modifier) {}
+    AlarmDetailsScreen(
+        modifier = Modifier,
+        viewModel::scheduleAlarm
+    )
+
 }
 
 @Composable
 fun AlarmDetailsScreen(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: (AlarmItemEvent) -> Unit,
 ) {
     val showPopUp = false
     Column(
@@ -81,7 +87,7 @@ fun AlarmDetailsScreen(
         TopUserOptionsRow(
             modifier = Modifier.height(32.dp)
         ) {
-
+            onClick(it)
         }
 
         Spacer(
@@ -111,20 +117,19 @@ fun AlarmDetailsScreen(
 
     }
 
-    if(showPopUp){
+    if (showPopUp) {
         AlarmNameInputPopUp(
             modifier = modifier
                 .padding(MyDimensions.largePadding)
                 .fillMaxSize()
         )
     }
-
 }
 
 @Composable
 fun TopUserOptionsRow(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: (AlarmItemEvent) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -133,7 +138,7 @@ fun TopUserOptionsRow(
     ) {
         Box(
             modifier = Modifier
-                .clickable { onClick() }
+                .clickable { }
                 .fillMaxHeight() // Adapts to the parent height if set, else occupies all screen
                 .aspectRatio(1f) // Make it square.
                 .background(MaterialTheme.colorScheme.surfaceDim, shape = RoundedCornerShape(4.dp)),
@@ -153,9 +158,16 @@ fun TopUserOptionsRow(
                 .weight(1f)
         )
 
+        val testSeconds = 5
+        val testAlarm = AlarmItemEvent(
+            time = LocalDateTime.now().plusSeconds(testSeconds.toLong()),
+            alarmTitle = "Test Alarm"
+        )
         MyRoundedButton(
             buttonText = "Save",
-            onButtonClicked = {}
+            onButtonClicked = {
+                onClick(testAlarm)
+            }
         )
     }
 }
@@ -163,7 +175,7 @@ fun TopUserOptionsRow(
 @Composable
 fun NewAlarmDateBlock(
     modifier: Modifier = Modifier,
-    onValueChanged: () -> Unit
+    onValueChanged: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -245,7 +257,7 @@ fun NewAlarmDateBlock(
 @Composable
 fun AlarmNameBlock(
     modifier: Modifier = Modifier,
-    onUserInteraction: () -> Unit
+    onUserInteraction: () -> Unit,
 ) {
     Row(
         modifier = modifier

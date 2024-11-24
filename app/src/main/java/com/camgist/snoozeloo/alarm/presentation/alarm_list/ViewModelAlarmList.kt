@@ -20,7 +20,7 @@ class ViewModelAlarmList(
     fun navigateToTriggerScreen() {
         viewModelScope.launch {
             navigator.navigate(
-                destination = Destination.TriggerGraph
+                destination = Destination.TriggerScreen
             )
         }
     }

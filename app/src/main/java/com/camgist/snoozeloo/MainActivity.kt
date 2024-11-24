@@ -14,6 +14,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHost
@@ -53,6 +54,30 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SnoozelooTheme {
+
+                val navController = rememberNavController()
+                val navigator = koinInject<Navigator>()
+
+                ObserveAsEvents(flow = navigator.navigationActions) { action ->
+                    when(action) {
+                        is NavigationAction.Navigate -> navController.navigate(
+                            action.destination
+                        ) {
+                            action.navOptions(this)
+                        }
+                        NavigationAction.NavigateUp -> navController.navigateUp()
+                    }
+                }
+
+                val navigationTarget = intent.getStringExtra("EXTRA_NAVIGATION_TARGET")
+                val alarmTitle = intent.getStringExtra("EXTRA_ALARM_TITLE")
+
+                if (navigationTarget == "TriggerScreen" && alarmTitle != null) {
+                    LaunchedEffect(Unit) {
+                        navigator.navigate(Destination.TriggerScreen)
+                    }
+                }
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize()
                         .padding(bottom = MyDimensions.smallPadding),
@@ -68,20 +93,6 @@ class MainActivity : ComponentActivity() {
                     },
                     floatingActionButtonPosition = FabPosition.Center
                 ) { innerPadding ->
-
-                    val navController = rememberNavController()
-                    val navigator = koinInject<Navigator>()
-
-                    ObserveAsEvents(flow = navigator.navigationActions) { action ->
-                        when(action) {
-                            is NavigationAction.Navigate -> navController.navigate(
-                                action.destination
-                            ) {
-                                action.navOptions(this)
-                            }
-                            NavigationAction.NavigateUp -> navController.navigateUp()
-                        }
-                    }
 
                     NavHost(
                         navController = navController,

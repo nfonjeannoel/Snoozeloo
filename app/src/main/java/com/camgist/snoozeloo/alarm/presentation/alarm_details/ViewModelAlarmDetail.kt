@@ -12,7 +12,6 @@ import com.camgist.snoozeloo.alarm.domain.utils.calculateNextAlarmText
 import com.camgist.snoozeloo.alarm.presentation.models.AlarmItemUi
 import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItem
 import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItemUi
-import com.camgist.snoozeloo.alarmManager.AlarmItemEvent
 import com.camgist.snoozeloo.alarmManager.AlarmScheduler
 import com.camgist.snoozeloo.navigation.Destination
 import com.camgist.snoozeloo.navigation.Navigator
@@ -106,6 +105,7 @@ class ViewModelAlarmDetail(
     private fun deleteAlarmItem(alarmItemUi: AlarmItemUi) {
         viewModelScope.launch {
             alarmsRepository.deleteAlarm(alarmItemUi.toAlarmItem())
+            alarmScheduler.cancel(alarmItemUi.toAlarmItem())
             navigator.navigateUp()
         }
     }
@@ -114,17 +114,15 @@ class ViewModelAlarmDetail(
         viewModelScope.launch {
             if (state.value.alarmItemUi == null) {
                 val newAlarmItem = AlarmItem(
-                    hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
-                    minute = Calendar.getInstance().get(Calendar.MINUTE),
+                    hour = state.value.hours.toInt(),
+                    minute = state.value.minutes.toInt(),
                     alarmName = state.value.alarmName ?: "",
                     isEnabled = true,
                     id = 0
                 )
-                Log.d(
-                    "ViewModelAlarmDetail",
-                    "saveAlarmToDatabase: ${newAlarmItem.hour} ${newAlarmItem.minute}"
-                )
-                alarmsRepository.insertAlarm(newAlarmItem)
+                val alarmId = alarmsRepository.insertAlarm(newAlarmItem)
+                val updatedAlarmItem = newAlarmItem.copy(id = alarmId.toInt())
+                alarmScheduler.schedule(updatedAlarmItem)
             } else {
                 val oldAlarmItem = state.value.alarmItemUi!!.toAlarmItem()
                 val updatedAlarmItem = oldAlarmItem.copy(
@@ -133,6 +131,9 @@ class ViewModelAlarmDetail(
                     alarmName = state.value.alarmName ?: "",
                 )
                 alarmsRepository.updateAlarm(updatedAlarmItem)
+                if (updatedAlarmItem.isEnabled) {
+                    alarmScheduler.schedule(updatedAlarmItem)
+                }
             }
         }
     }
@@ -210,12 +211,12 @@ class ViewModelAlarmDetail(
     }
 
 
-
-    fun scheduleAlarm(alarmItem: AlarmItemEvent) {
+    fun scheduleAlarm(alarmItem: AlarmItem) {
         Log.d("AlarmSchedule", "DetailViewModel: Alarm scheduled")
         alarmScheduler.schedule(alarmItem)
     }
-    fun cancelAlarm(alarmItem: AlarmItemEvent) {
+
+    fun cancelAlarm(alarmItem: AlarmItem) {
         alarmScheduler.cancel(alarmItem)
     }
 

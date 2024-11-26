@@ -21,6 +21,7 @@ fun calculateNextAlarmText(alarmTime: LocalTime): String {
         if (days > 0) append("$days d ")
         if (hours > 0) append("$hours h ")
         if (minutes > 0) append("$minutes min")
+        if (days == 0L && hours == 0L && minutes == 0L) append("less than a minute")
     }.trim()
 }
 

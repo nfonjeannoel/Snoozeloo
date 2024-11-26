@@ -22,8 +22,8 @@ class AlarmsRepository(private val alarmsDao: AlarmsDao) : BaseAlarmsRepository 
     }
 
 
-    override suspend fun insertAlarm(alarmItem: AlarmItem) {
-        alarmsDao.insertAlarmItem(alarmItem.toAlarmItemEntity())
+    override suspend fun insertAlarm(alarmItem: AlarmItem): Long {
+        return alarmsDao.insertAlarmItem(alarmItem.toAlarmItemEntity())
     }
 
     override suspend fun updateAlarm(alarmItem: AlarmItem) {

@@ -4,17 +4,22 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import com.camgist.snoozeloo.alarm.domain.AlarmItem
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.time.ZoneId
 
 class AndroidAlarmScheduler(
     private val context: Context
-): AlarmScheduler {
+) : AlarmScheduler {
 
     private val alarmManager = context.getSystemService(AlarmManager::class.java)
 
-    override fun schedule(item: AlarmItemEvent) {
+    override fun schedule(item: AlarmItem) {
         val intent = Intent(context, AlarmReceiver::class.java).apply {
-            putExtra("EXTRA_TITLE", item.alarmTitle)
+//            putExtra("EXTRA_TITLE", item.alarmName)
+            val alarmString = Json.encodeToString(item)
+            putExtra("EXTRA_ALARM", alarmString)
         }
 
         alarmManager.setExactAndAllowWhileIdle(
@@ -22,18 +27,18 @@ class AndroidAlarmScheduler(
             item.time.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000,
             PendingIntent.getBroadcast(
                 context,
-                item.hashCode(),
+                item.id,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
     }
 
-    override fun cancel(item: AlarmItemEvent) {
+    override fun cancel(item: AlarmItem) {
         alarmManager.cancel(
             PendingIntent.getBroadcast(
                 context,
-                item.hashCode(),
+                item.id,
                 Intent(context, AlarmReceiver::class.java),
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )

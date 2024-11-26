@@ -6,6 +6,7 @@ import com.camgist.snoozeloo.alarm.data.BaseAlarmsRepository
 import com.camgist.snoozeloo.alarm.presentation.models.AlarmItemUi
 import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItem
 import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItemUi
+import com.camgist.snoozeloo.alarmManager.AlarmScheduler
 import com.camgist.snoozeloo.navigation.Destination
 import com.camgist.snoozeloo.navigation.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 
 class ViewModelAlarmList(
     private val navigator: Navigator,
-    private val alarmsRepository: BaseAlarmsRepository
+    private val alarmsRepository: BaseAlarmsRepository,
+    private val alarmScheduler: AlarmScheduler
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AlarmListState())
@@ -74,6 +76,13 @@ class ViewModelAlarmList(
                     val alarmItem = alarmItemUi.toAlarmItem()
                     val updatedAlarmItem = alarmItem.copy(isEnabled = isChecked)
                     alarmsRepository.updateAlarm(updatedAlarmItem)
+                    if (isChecked) {
+                        // Schedule alarm
+                        alarmScheduler.schedule(updatedAlarmItem)
+                    } else {
+                        // Cancel alarm
+                        alarmScheduler.cancel(updatedAlarmItem)
+                    }
                 }
             }
         }

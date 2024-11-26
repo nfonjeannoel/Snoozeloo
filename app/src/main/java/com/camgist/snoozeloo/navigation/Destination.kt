@@ -9,11 +9,11 @@ sealed class Destination {
     @Serializable
     data object HomeGraph : Destination()
 
-    @Serializable
-    data object DetailGraph : Destination()
-
-    @Serializable
-    data object TriggerGraph : Destination()
+//    @Serializable
+//    data object DetailGraph : Destination()
+//
+//    @Serializable
+//    data object TriggerGraph : Destination()
 
     // Child destinations
     @Serializable

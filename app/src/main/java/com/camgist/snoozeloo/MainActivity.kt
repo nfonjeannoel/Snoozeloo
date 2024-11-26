@@ -20,30 +20,27 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.camgist.snoozeloo.alarm.domain.AlarmItem
 import com.camgist.snoozeloo.alarm.presentation.alarm_details.AlarmDetailsScreen
-import com.camgist.snoozeloo.alarm.presentation.alarm_details.AlarmDetailsState
 import com.camgist.snoozeloo.alarm.presentation.alarm_details.ViewModelAlarmDetail
 import com.camgist.snoozeloo.alarm.presentation.alarm_list.AlarmListAction
 import com.camgist.snoozeloo.alarm.presentation.alarm_list.AlarmListScreen
-import com.camgist.snoozeloo.alarm.presentation.alarm_list.AlarmListState
 import com.camgist.snoozeloo.alarm.presentation.alarm_list.ViewModelAlarmList
-import com.camgist.snoozeloo.alarm.presentation.alarm_list.previewAlarmListUi
-import com.camgist.snoozeloo.alarm.presentation.alarm_trigger.AlarmTriggerScreen
 import com.camgist.snoozeloo.alarm.presentation.alarm_trigger.RootAlarmTriggerScreen
 import com.camgist.snoozeloo.alarm.presentation.alarm_trigger.ViewModelAlarmTrigger
-import com.camgist.snoozeloo.alarm.presentation.composables.previewAlarmItem
+import com.camgist.snoozeloo.alarm.presentation.models.toAlarmItemUi
 import com.camgist.snoozeloo.navigation.Destination
 import com.camgist.snoozeloo.navigation.NavigationAction
 import com.camgist.snoozeloo.navigation.Navigator
 import com.camgist.snoozeloo.ui.theme.MyDimensions
 import com.camgist.snoozeloo.ui.theme.SnoozelooTheme
+import kotlinx.serialization.json.Json
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
@@ -57,19 +54,28 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
+
             SnoozelooTheme {
+
                 val alarmListViewModel = koinViewModel<ViewModelAlarmList>()
                 val alarmListState by alarmListViewModel.state.collectAsStateWithLifecycle()
                 val alarmDetailsViewModel = koinViewModel<ViewModelAlarmDetail>()
                 val alarmDetailsState by alarmDetailsViewModel.state.collectAsStateWithLifecycle()
                 val navController = rememberNavController()
                 val navigator = koinInject<Navigator>()
-//                    val alarmTriggerViewModel = koinViewModel<ViewModelAlarmTrigger>()
+                val alarmTriggerViewModel = koinViewModel<ViewModelAlarmTrigger>()
 
                 val currentBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = currentBackStackEntry?.destination
 
-
+//                LaunchedEffect(Unit) {
+//                    val target = intent.getStringExtra("EXTRA_NAVIGATION_TARGET")
+//                    Log.d("MainActivity", "Navigation target check: $target")
+//                    if (target == "TriggerScreen") {
+//                        navigator.navigate(Destination.TriggerScreen)
+//                    }
+//                }
                 Scaffold(
                     modifier = Modifier
                         .fillMaxSize()
@@ -109,7 +115,10 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         navigation<Destination.HomeGraph>(
-                            startDestination = Destination.HomeScreen
+                            startDestination = when (intent.getStringExtra("EXTRA_NAVIGATION_TARGET")) {
+                                "TriggerScreen" -> Destination.TriggerScreen
+                                else -> Destination.HomeScreen
+                            }
                         ) {
                             composable<Destination.HomeScreen> {
                                 AlarmListScreen(
@@ -119,29 +128,6 @@ class MainActivity : ComponentActivity() {
                             }
 
                             composable<Destination.DetailScreen> {
-//                                AlarmDetailsScreen(
-//                                    state =
-//                                    if (alarmListState.selectedAlarmUiItem == null) {
-//                                        // New alarm
-////                                        AlarmDetailsState()
-//                                        alarmDetailsState
-//                                    } else {
-//                                        // existing alarm. Modify the state to reflect the selected alarm
-//                                        alarmDetailsViewModel.updateState(
-//                                            alarmDetailsState.copy(
-//                                                alarmItemUi = alarmListState.selectedAlarmUiItem,
-//                                                hours = alarmListState.selectedAlarmUiItem?.hour.toString(),
-//                                                minutes = alarmListState.selectedAlarmUiItem?.minute.toString(),
-//                                                alarmName = alarmListState.selectedAlarmUiItem?.alarmName,
-//                                                isTimeValid = true,
-//                                                errorMessage = null
-//                                            )
-//                                        )
-//                                        alarmDetailsState
-//                                    },
-//                                    onAction = alarmDetailsViewModel::onAction
-//                                )
-
                                 val args = it.toRoute<Destination.DetailScreen>()
                                 LaunchedEffect(key1 = args.alarmItemId) {
                                     Log.d("MainActivity", "args.alarmItemId: ${args.alarmItemId}")
@@ -153,33 +139,17 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
 
-//                            composable<Destination.TriggerScreen> {
-//                                val viewModel = koinViewModel<ViewModelAlarmTrigger>()
-//
-//                                RootAlarmTriggerScreen(viewModel)
-//                        }
+                            composable<Destination.TriggerScreen> {
+                                val alarmExtra =
+                                    intent.getStringExtra("EXTRA_ALARM") ?: return@composable
+                                val alarmItem = Json.decodeFromString<AlarmItem>(alarmExtra)
+                                RootAlarmTriggerScreen(alarmTriggerViewModel, alarmItem.toAlarmItemUi())
+                            }
                         }
-//                        navigation<Destination.DetailGraph> (
-//                            startDestination = Destination.DetailScreen
-//                        ) {
-//                            composable<Destination.DetailScreen> {
-//                                val viewModel = koinViewModel<ViewModelAlarmDetail>()
-//                                val args = it.toRoute<Destination.DetailScreen>()
-//
-//                                RootAlarmDetailScreen(viewModel, args.id)
-//                            }
-//                        }
-//
-//                        navigation<Destination.TriggerGraph> (
-//                            startDestination = Destination.TriggerScreen
-//                        ) {
-//                            composable<Destination.TriggerScreen> {
-//                                val viewModel = koinViewModel<ViewModelAlarmTrigger>()
-//
-//                                RootAlarmTriggerScreen(viewModel)
-//                            }
-//                        }
+
                     }
+
+
                 }
             }
         }

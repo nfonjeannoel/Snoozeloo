@@ -1,6 +1,5 @@
 package com.camgist.snoozeloo.alarm.presentation.alarm_trigger
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +21,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.camgist.snoozeloo.R
+import com.camgist.snoozeloo.alarm.domain.AlarmItem
 import com.camgist.snoozeloo.alarm.presentation.composables.MyRoundedButton
+import com.camgist.snoozeloo.alarm.presentation.composables.previewAlarmItem
+import com.camgist.snoozeloo.alarm.presentation.models.AlarmItemUi
 import com.camgist.snoozeloo.ui.theme.MyDimensions
 import com.camgist.snoozeloo.ui.theme.SnoozelooTheme
 
@@ -33,24 +34,30 @@ import com.camgist.snoozeloo.ui.theme.SnoozelooTheme
 fun PreviewAlarmTriggerScreen() {
     SnoozelooTheme {
         AlarmTriggerScreen(
-            modifier = Modifier.fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-        ) {}
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            onButtonClicked = {},
+            alarmItem = previewAlarmItem
+        )
     }
 }
 
 @Composable
-fun RootAlarmTriggerScreen(vm: ViewModelAlarmTrigger) {
+fun RootAlarmTriggerScreen(vm: ViewModelAlarmTrigger, alarmItem: AlarmItemUi) {
     AlarmTriggerScreen(
         Modifier,
-        vm::navigateBack
+        vm::navigateBack,
+        alarmItem
     )
 }
 
 @Composable
 fun AlarmTriggerScreen(
+
     modifier: Modifier = Modifier,
-    onButtonClicked: () -> Unit
+    onButtonClicked: () -> Unit,
+    alarmItem: AlarmItemUi
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -70,7 +77,7 @@ fun AlarmTriggerScreen(
             Spacer(Modifier.size(MyDimensions.largePadding))
 
             Text(
-                text = "10:00",
+                text = alarmItem.getFormattedTime(),
                 style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -78,7 +85,7 @@ fun AlarmTriggerScreen(
             Spacer(Modifier.size(MyDimensions.largePadding))
 
             Text(
-                text = "Work",
+                text = alarmItem.alarmName ?: "",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontSize = 28.sp
                 )

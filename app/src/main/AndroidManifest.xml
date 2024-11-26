@@ -18,6 +18,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:label="@string/app_name"
             android:theme="@style/Theme.Snoozeloo.Splash">
             <intent-filter>
@@ -27,7 +28,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlarmReceiver" />
+        <receiver android:name=".alarmManager.AlarmReceiver" />
     </application>
 
 </manifest>

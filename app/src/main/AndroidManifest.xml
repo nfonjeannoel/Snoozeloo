@@ -31,7 +31,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".alarmManager.AlarmReceiver" />
+        <receiver
+            android:name=".alarmManager.AlarmReceiver"
+            android:exported="true" />
     </application>
 
 </manifest>

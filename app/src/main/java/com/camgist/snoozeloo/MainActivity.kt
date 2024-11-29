@@ -104,7 +104,7 @@ class MainActivity : ComponentActivity() {
                                 action.navOptions(this)
                             }
 
-                            NavigationAction.NavigateUp -> navController.navigateUp()
+                            is NavigationAction.NavigateUp -> navController.navigateUp()
                         }
                     }
 
@@ -143,7 +143,10 @@ class MainActivity : ComponentActivity() {
                                 val alarmExtra =
                                     intent.getStringExtra("EXTRA_ALARM") ?: return@composable
                                 val alarmItem = Json.decodeFromString<AlarmItem>(alarmExtra)
-                                RootAlarmTriggerScreen(alarmTriggerViewModel, alarmItem.toAlarmItemUi())
+                                RootAlarmTriggerScreen(
+                                    alarmTriggerViewModel,
+                                    alarmItem.toAlarmItemUi()
+                                )
                             }
                         }
 

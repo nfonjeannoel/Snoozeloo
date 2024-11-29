@@ -1,5 +1,6 @@
 package com.camgist.snoozeloo.alarm.presentation.alarm_trigger
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.camgist.snoozeloo.R
-import com.camgist.snoozeloo.alarm.domain.AlarmItem
 import com.camgist.snoozeloo.alarm.presentation.composables.MyRoundedButton
 import com.camgist.snoozeloo.alarm.presentation.composables.previewAlarmItem
 import com.camgist.snoozeloo.alarm.presentation.models.AlarmItemUi
@@ -37,7 +37,7 @@ fun PreviewAlarmTriggerScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
-            onButtonClicked = {},
+            onAction = {},
             alarmItem = previewAlarmItem
         )
     }
@@ -46,17 +46,16 @@ fun PreviewAlarmTriggerScreen() {
 @Composable
 fun RootAlarmTriggerScreen(vm: ViewModelAlarmTrigger, alarmItem: AlarmItemUi) {
     AlarmTriggerScreen(
-        Modifier,
-        vm::navigateBack,
-        alarmItem
+        modifier = Modifier,
+        onAction = vm::onAction,
+        alarmItem = alarmItem
     )
 }
 
 @Composable
 fun AlarmTriggerScreen(
-
     modifier: Modifier = Modifier,
-    onButtonClicked: () -> Unit,
+    onAction: (AlarmTriggerAction) -> Unit,
     alarmItem: AlarmItemUi
 ) {
     Box(
@@ -98,9 +97,11 @@ fun AlarmTriggerScreen(
                 modifier = Modifier.height(IntrinsicSize.Max),
                 buttonBgColour = MaterialTheme.colorScheme.primary,
                 paddingValues = PaddingValues(horizontal = 32.dp, vertical = 12.dp),
-            ) {
-                onButtonClicked()
-            }
+                onButtonClicked = {
+                    Log.d("navigateBackButtonPressed", "Turn off button clicked")
+                    onAction(AlarmTriggerAction.OnTurnOffClicked)
+                }
+            )
         }
     }
 }
